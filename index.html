@@ -1,0 +1,203 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SLO Security – Sicherheit, die man spürt (Demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060607;--fg:#f2f2f2;--mut:#8a8a92;--acc:#ff2b2b;--card:rgba(255,255,255,.04);--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:Inter,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-20%;background:radial-gradient(35% 35% at 70% 25%,rgba(255,43,43,.35),transparent 70%),radial-gradient(30% 30% at 15% 80%,rgba(255,43,43,.15),transparent 70%);filter:blur(80px);z-index:-2;pointer-events:none}
+a{color:inherit;text-decoration:none}
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 4vw;z-index:50;mix-blend-mode:difference}
+.logo{font:900 20px Unbounded;letter-spacing:-.02em}.logo b{color:var(--acc)}
+nav ul{display:flex;gap:28px;list-style:none;font-size:13px;text-transform:uppercase;letter-spacing:.12em}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:14px 26px;border-radius:99px;font-weight:700;font-size:14px;letter-spacing:.04em;box-shadow:0 0 40px rgba(255,43,43,.5)}
+.hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mega{font:900 clamp(90px,30vw,560px)/.8 Unbounded;letter-spacing:-.06em;background:linear-gradient(180deg,#fff 0%,#8d8d96 35%,#fff 50%,#3a3a44 72%,#cfcfd6 100%);background-size:100% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 30px 50px rgba(0,0,0,.7));position:relative;z-index:1;user-select:none}
+#obj{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.fallback{position:absolute;left:50%;top:50%;width:min(38vw,320px);transform:translate(-50%,-50%);z-index:2;display:none;filter:drop-shadow(0 0 40px rgba(255,43,43,.6));animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{transform:translate(-50%,-54%) rotateY(20deg)}}
+.nogl .fallback{display:block}
+.hero .sub{position:absolute;bottom:7vh;left:4vw;right:4vw;display:flex;justify-content:space-between;align-items:end;z-index:3;gap:20px}
+.hero .sub p{max-width:380px;color:#cfcfd4;font-size:15px;line-height:1.5}.hero .sub span{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.side{position:absolute;left:1vw;top:50%;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);font:900 7vw Unbounded;opacity:.06;white-space:nowrap}
+section{padding:16vh 6vw;position:relative}
+.eyebrow{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--acc);margin-bottom:24px}
+h2{font:700 clamp(36px,6.5vw,110px)/.95 Unbounded;letter-spacing:-.04em;text-transform:uppercase}
+h2 em{font-style:normal;color:var(--acc)}
+.line{display:block;overflow:hidden}.line>span{display:block}
+/* radar */
+.radar-wrap{height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:5vw;padding:0 6vw}
+.radar{aspect-ratio:1;width:100%;max-width:560px;border-radius:50%;position:relative;background:radial-gradient(circle,rgba(255,43,43,.08),transparent 70%);border:1px solid rgba(255,43,43,.35);overflow:hidden;justify-self:center}
+.radar::before,.radar::after{content:"";position:absolute;inset:16%;border:1px solid rgba(255,43,43,.25);border-radius:50%}.radar::after{inset:33%}
+.radar .cross{position:absolute;inset:0;background:linear-gradient(transparent 49.8%,rgba(255,43,43,.3) 50%,transparent 50.2%),linear-gradient(90deg,transparent 49.8%,rgba(255,43,43,.3) 50%,transparent 50.2%)}
+.sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,43,43,.55),rgba(255,43,43,0) 70deg,transparent 360deg)}
+.blip{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--acc);box-shadow:0 0 20px var(--acc);opacity:0}
+.radar-text p{color:#bdbdc4;font-size:18px;line-height:1.6;margin-top:28px;max-width:520px}
+.radar-status{margin-top:30px;font:500 13px monospace;color:var(--acc);letter-spacing:.1em}
+/* services */
+.svc{border-top:1px solid var(--line);margin-top:8vh}
+.svc a{display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:20px;padding:30px 0;border-bottom:1px solid var(--line);position:relative;transition:.4s}
+.svc a .n{font:500 14px Unbounded;color:var(--mut)}
+.svc a h3{font:700 clamp(26px,4.4vw,72px)/1 Unbounded;letter-spacing:-.03em;text-transform:uppercase;transition:.4s}
+.svc a p{color:var(--mut);max-width:300px;font-size:14px;text-align:right}
+.svc a:hover h3{color:var(--acc);transform:translateX(20px)}
+.svc .img{position:fixed;width:300px;height:200px;pointer-events:none;border-radius:14px;background-size:cover;background-position:center;opacity:0;z-index:40;transition:opacity .3s;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+/* photo reveal */
+.reveal{height:110vh;position:relative;overflow:hidden;padding:0}
+.reveal .ph{position:absolute;inset:0;background:url(img/city.jpg) center/cover}
+.reveal .ph.bw{filter:grayscale(1) brightness(.35) contrast(1.2)}
+.reveal .ph.col{clip-path:circle(0% at 50% 50%);filter:brightness(.7) saturate(1.2) hue-rotate(-10deg)}
+.reveal h2{position:absolute;left:6vw;bottom:10vh;z-index:3;max-width:80vw}
+/* steps */
+.steps{display:grid;gap:0}
+.step{display:grid;grid-template-columns:30vw 1fr;gap:4vw;padding:7vh 0;border-bottom:1px solid var(--line);align-items:start}
+.step .num{font:900 clamp(80px,12vw,220px)/.8 Unbounded;color:transparent;-webkit-text-stroke:1.5px var(--acc);letter-spacing:-.05em}
+.step h3{font:700 clamp(24px,3vw,46px)/1.05 Unbounded;letter-spacing:-.02em;margin-bottom:16px}
+.step p{color:#b8b8c0;line-height:1.6;max-width:560px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8vh}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:34px;backdrop-filter:blur(10px)}
+.stat b{display:block;font:900 clamp(40px,5vw,84px)/1 Unbounded;letter-spacing:-.04em}
+.stat b i{font-style:normal;color:var(--acc)}.stat span{color:var(--mut);font-size:14px}
+.note{color:var(--mut);font-size:12px;margin-top:18px;letter-spacing:.05em}
+/* gallery */
+.gal{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;margin-top:8vh;height:70vh}
+.gal div{border-radius:22px;background-size:cover;background-position:center;position:relative;overflow:hidden;filter:grayscale(.6) contrast(1.1)}
+.gal div span{position:absolute;left:20px;bottom:18px;font:700 14px Unbounded;text-transform:uppercase;letter-spacing:.05em}
+.gal div::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,.8))}
+.gal div span{z-index:1}
+/* certs */
+.badges{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px}.badges span{border:1px solid var(--line);border-radius:99px;padding:10px 18px;font-size:13px;color:#ccc}
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start}
+form.card{display:grid;gap:14px}
+form input,form select,form textarea{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:16px;color:#fff;font:inherit}
+form textarea{min-height:120px}form button{border:0;cursor:pointer;font-family:inherit}
+.cinfo p{color:#bbb;margin-top:12px;font-size:17px}
+/* cta */
+.cta{text-align:center;padding:24vh 4vw}
+.cta h2{font-size:clamp(40px,9vw,170px)}
+.cta .btn{margin-top:50px;font-size:16px;padding:18px 36px}
+footer{padding:6vh 4vw 3vh;border-top:1px solid var(--line);overflow:hidden}
+footer .big{font:900 13vw/.8 Unbounded;white-space:nowrap;letter-spacing:-.06em;text-align:center;background:linear-gradient(180deg,#2a2a30,#060607);-webkit-background-clip:text;background-clip:text;color:transparent;margin-top:4vh}
+footer .row{display:flex;justify-content:space-between;color:var(--mut);font-size:13px;flex-wrap:wrap;gap:12px}
+@media(max-width:800px){nav ul{display:none}.radar-wrap{grid-template-columns:1fr;height:auto;padding:14vh 6vw}.step{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.gal{grid-template-columns:1fr;height:auto}.gal div{height:240px}.contact{grid-template-columns:1fr}.svc a{grid-template-columns:40px 1fr}.svc a p{display:none}.hero .sub{flex-direction:column;align-items:start}.side{display:none}.fallback{width:46vw}}
+</style></head><body>
+<nav><a class="logo" href="#">SLO<b>.</b>SECURITY</a><ul><li><a href="#leistungen">Leistungen</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#kontakt">Kontakt</a></li></ul><a class="btn" href="#kontakt">Anfrage</a></nav>
+
+<section class="hero" id="hero">
+ <div class="side">SLO SECURITY · 24/7</div>
+ <h1 class="mega">SLO</h1>
+ <canvas id="obj"></canvas>
+ <svg class="fallback" viewBox="0 0 200 240"><defs><linearGradient id="ch" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#7d7d88"/><stop offset=".55" stop-color="#f4f4f8"/><stop offset="1" stop-color="#2c2c34"/></linearGradient></defs><path d="M100 6 186 38v70c0 62-40 104-86 126C54 212 14 170 14 108V38Z" fill="url(#ch)" stroke="#ff2b2b" stroke-width="3"/><path d="M100 34 160 56v52c0 44-28 76-60 92-32-16-60-48-60-92V56Z" fill="#0b0b0e"/><circle cx="100" cy="118" r="26" fill="none" stroke="#ff2b2b" stroke-width="6"/><circle cx="100" cy="118" r="8" fill="#ff2b2b"/></svg>
+ <div class="sub"><p>Objektschutz, Event-Security und Personenschutz mit eigener Leitstelle. Rund um die Uhr. Diskret. Präsent.</p><span>Scrollen ↓</span></div>
+</section>
+
+<section class="radar-wrap" id="radar">
+ <div class="radar"><div class="cross"></div><div class="sweep"></div><i class="blip" style="left:28%;top:30%"></i><i class="blip" style="left:66%;top:42%"></i><i class="blip" style="left:44%;top:72%"></i><i class="blip" style="left:75%;top:68%"></i></div>
+ <div class="radar-text"><div class="eyebrow">24/7 Leitstelle</div><h2><span class="line"><span>Wir sehen,</span></span><span class="line"><span>bevor etwas</span></span><span class="line"><span><em>passiert.</em></span></span></h2><p>Unsere Leitstelle überwacht Alarme, Kameras und Streifen in Echtzeit. Jede Meldung wird sofort bewertet und verfolgt – Tag und Nacht, auch an Feiertagen.</p><div class="radar-status">● STATUS: <span id="st">SCAN LÄUFT …</span></div></div>
+</section>
+
+<section id="leistungen"><div class="eyebrow">Leistungen</div><h2><span class="line"><span>Schutz für alles,</span></span><span class="line"><span>was <em>zählt.</em></span></span></h2>
+ <div class="svc">
+  <a href="#kontakt" data-img="img/guard.jpg"><span class="n">01</span><h3>Objektschutz</h3><p>Bewachung von Gebäuden, Lagern und Geländen.</p></a>
+  <a href="#kontakt" data-img="img/event.jpg"><span class="n">02</span><h3>Event-Security</h3><p>Einlass, Crowd-Management und Bühnenschutz.</p></a>
+  <a href="#kontakt" data-img="img/city.jpg"><span class="n">03</span><h3>Personenschutz</h3><p>Diskrete Begleitung für Personen mit Gefährdungslage.</p></a>
+  <a href="#kontakt" data-img="img/bau.jpg"><span class="n">04</span><h3>Baustellen&shy;bewachung</h3><p>Schutz vor Diebstahl und Vandalismus.</p></a>
+  <a href="#kontakt" data-img="img/city.jpg"><span class="n">05</span><h3>Revierdienst</h3><p>Streifenfahrten und Kontrollgänge im Revier.</p></a>
+  <a href="#kontakt" data-img="img/cam.jpg"><span class="n">06</span><h3>Alarmverfolgung</h3><p>Intervention nach Alarmauslösung.</p></a>
+  <a href="#kontakt" data-img="img/cam.jpg"><span class="n">07</span><h3>24/7 Leitstelle</h3><p>Zentrale Überwachung rund um die Uhr.</p></a>
+  <a href="#kontakt" data-img="img/guard.jpg"><span class="n">08</span><h3>Doorman &amp; Empfang</h3><p>Repräsentativer Empfangs- und Pfortendienst.</p></a>
+  <div class="img"></div>
+ </div>
+</section>
+
+<section class="reveal" id="reveal"><div class="ph bw"></div><div class="ph col"></div><h2><span class="line"><span>Die Stadt schläft.</span></span><span class="line"><span><em>Wir nicht.</em></span></span></h2></section>
+
+<section id="ablauf"><div class="eyebrow">Ablauf</div><h2><span class="line"><span>In fünf Schritten</span></span><span class="line"><span>zu <em>echter Sicherheit.</em></span></span></h2>
+ <div class="steps" style="margin-top:8vh">
+  <div class="step"><span class="num">01</span><div><h3>Erstgespräch</h3><p>Wir hören zu: Objekt, Veranstaltung oder Person – was soll geschützt werden, und wovor?</p></div></div>
+  <div class="step"><span class="num">02</span><div><h3>Risikoanalyse vor Ort</h3><p>Begehung, Schwachstellen, Zugänge, Zeiten. Daraus entsteht ein klares Lagebild.</p></div></div>
+  <div class="step"><span class="num">03</span><div><h3>Sicherheitskonzept</h3><p>Personal, Technik, Streifenplan und Alarmketten – transparent und mit Festpreisangebot.</p></div></div>
+  <div class="step"><span class="num">04</span><div><h3>Einsatz</h3><p>Geschultes Personal übernimmt, angebunden an unsere 24/7 Leitstelle.</p></div></div>
+  <div class="step"><span class="num">05</span><div><h3>Berichte &amp; Optimierung</h3><p>Digitale Wachberichte und regelmäßige Abstimmung – Ihr Schutz wird laufend besser.</p></div></div>
+ </div>
+</section>
+
+<section><div class="eyebrow">In Zahlen</div><h2><span class="line"><span>Zahlen, die <em>wachen.</em></span></span></h2>
+ <div class="stats">
+  <div class="card stat"><b><span class="cnt" data-to="24">0</span><i>/7</i></b><span>Leitstelle besetzt</span></div>
+  <div class="card stat"><b><span class="cnt" data-to="15">0</span><i>min</i></b><span>Ø Interventionszeit</span></div>
+  <div class="card stat"><b><span class="cnt" data-to="120">0</span><i>+</i></b><span>betreute Objekte</span></div>
+  <div class="card stat"><b><span class="cnt" data-to="350">0</span><i>+</i></b><span>Events pro Jahr</span></div>
+ </div>
+ <p class="note">* Beispielwerte für den Demo-Entwurf – keine echten Unternehmensdaten.</p>
+ <div class="gal"><div style="background-image:url(img/event.jpg)"><span>Veranstaltungen</span></div><div style="background-image:url(img/cam.jpg)"><span>Videoüberwachung</span></div><div style="background-image:url(img/bau.jpg)"><span>Baustellen</span></div></div>
+ <div class="badges"><span>§34a GewO (Beispiel)</span><span>DIN 77200 (Beispiel)</span><span>Datenschutzkonform</span><span>Eigene Leitstelle</span></div>
+</section>
+
+<section id="kontakt" class="contact">
+ <div class="cinfo"><div class="eyebrow">Kontakt</div><h2><span class="line"><span>Sprechen wir</span></span><span class="line"><span>über Ihren <em>Schutz.</em></span></span></h2><p>Telefon: [Telefon]</p><p>E-Mail: [E-Mail]</p><p>Adresse: [Adresse]</p></div>
+ <form class="card" onsubmit="event.preventDefault();this.querySelector('button').textContent='Demo – Formular nicht aktiv'"><input placeholder="Name" required><input placeholder="E-Mail oder Telefon" required><select><option>Objektschutz</option><option>Event-Security</option><option>Personenschutz</option><option>Baustellenbewachung</option><option>Revierdienst</option><option>Alarmverfolgung</option><option>Leitstelle</option><option>Doorman / Empfang</option></select><textarea placeholder="Ihre Anfrage"></textarea><button class="btn" type="submit">Anfrage senden →</button><small style="color:var(--mut)">Demo-Formular – es werden keine Daten gesendet.</small></form>
+</section>
+
+<section class="cta"><h2><span class="line"><span>Sicherheit,</span></span><span class="line"><span>die man <em>spürt.</em></span></span></h2><a class="btn" href="#kontakt">Jetzt Sicherheitskonzept anfragen</a></section>
+
+<footer><div class="row"><span>© SLO Security · [Adresse]</span><span>Impressum · Datenschutz</span><span>Demo-Entwurf – unverbindliches Konzept</span></div><div class="big">SLO SECURITY</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+window.SCROLL={p:0};
+ScrollTrigger.create({trigger:"#hero",start:"top top",end:"+=120%",pin:true,scrub:true,onUpdate:s=>window.SCROLL.p=s.progress});
+gsap.to(".mega",{scale:1.8,opacity:.25,backgroundPosition:"0 100%",ease:"none",scrollTrigger:{trigger:"#hero",start:"top top",end:"+=120%",scrub:true}});
+gsap.to(".hero .sub",{opacity:0,y:40,scrollTrigger:{trigger:"#hero",start:"top top",end:"+=40%",scrub:true}});
+document.querySelectorAll("h2").forEach(h=>gsap.from(h.querySelectorAll(".line>span"),{yPercent:110,stagger:.08,duration:1,ease:"power4.out",scrollTrigger:{trigger:h,start:"top 85%"}}));
+// radar
+gsap.to(".sweep",{rotation:360,repeat:-1,duration:3,ease:"none"});
+ScrollTrigger.create({trigger:"#radar",start:"top 60%",onEnter:()=>{gsap.to(".blip",{opacity:1,scale:1.4,stagger:.5,yoyo:true,repeat:-1,duration:.8});setTimeout(()=>document.getElementById("st").textContent="4 OBJEKTE GESICHERT",2200)}});
+// reveal
+gsap.to(".reveal .col",{clipPath:"circle(75% at 50% 50%)",ease:"none",scrollTrigger:{trigger:"#reveal",start:"top top",end:"+=100%",pin:true,scrub:true}});
+// steps
+document.querySelectorAll(".step").forEach(s=>gsap.from(s.children,{y:80,opacity:0,stagger:.12,duration:1,scrollTrigger:{trigger:s,start:"top 80%"}}));
+// counters
+document.querySelectorAll(".cnt").forEach(c=>{const o={v:0};gsap.to(o,{v:+c.dataset.to,duration:2,ease:"power2.out",scrollTrigger:{trigger:c,start:"top 90%"},onUpdate:()=>c.textContent=Math.round(o.v)})});
+// hover images
+const im=document.querySelector(".svc .img");
+document.querySelectorAll(".svc a").forEach(a=>{a.addEventListener("mouseenter",()=>{im.style.backgroundImage=`url(${a.dataset.img})`;im.style.opacity=1});a.addEventListener("mouseleave",()=>im.style.opacity=0)});
+addEventListener("mousemove",e=>{im.style.left=e.clientX+20+"px";im.style.top=e.clientY-100+"px"});
+</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import {RoomEnvironment} from "three/addons/environments/RoomEnvironment.js";
+const cv=document.getElementById("obj");
+let r;try{r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});}catch(e){document.body.classList.add("nogl");throw e}
+window.GL_OK=true;
+r.setPixelRatio(Math.min(devicePixelRatio,2));r.toneMapping=THREE.ACESFilmicToneMapping;
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,100);cam.position.z=9;
+sc.environment=new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(),.04).texture;
+const sh=new THREE.Shape();sh.moveTo(0,1.6);sh.bezierCurveTo(.6,1.35,1.1,1.3,1.4,1.3);sh.lineTo(1.4,.3);sh.bezierCurveTo(1.4,-.8,.7,-1.4,0,-1.8);sh.bezierCurveTo(-.7,-1.4,-1.4,-.8,-1.4,.3);sh.lineTo(-1.4,1.3);sh.bezierCurveTo(-1.1,1.3,-.6,1.35,0,1.6);
+const g=new THREE.ExtrudeGeometry(sh,{depth:.35,bevelEnabled:true,bevelThickness:.15,bevelSize:.12,bevelSegments:10,curveSegments:48});g.center();
+const chrome=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.12,clearcoat:1});
+const grp=new THREE.Group();sc.add(grp);
+const shield=new THREE.Mesh(g,chrome);grp.add(shield);
+const red=new THREE.MeshStandardMaterial({color:0xff2b2b,emissive:0xff2b2b,emissiveIntensity:1,toneMapped:false});
+const ring=new THREE.Mesh(new THREE.TorusGeometry(.5,.07,24,96),red);ring.position.z=.4;grp.add(ring);
+const dot=new THREE.Mesh(new THREE.SphereGeometry(.17,32,32),red);dot.position.z=.4;grp.add(dot);
+const orbit=new THREE.Mesh(new THREE.TorusGeometry(2.4,.012,8,200),red);orbit.rotation.x=1.2;sc.add(orbit);
+const N=900,pg=new THREE.BufferGeometry(),pos=new Float32Array(N*3);
+for(let i=0;i<N;i++){const a=Math.random()*6.28,rad=2.2+Math.random()*2.5;pos[i*3]=Math.cos(a)*rad;pos[i*3+1]=(Math.random()-.5)*3;pos[i*3+2]=Math.sin(a)*rad}
+pg.setAttribute("position",new THREE.BufferAttribute(pos,3));
+const pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0xff4a4a,size:.03,transparent:true,opacity:.8}));sc.add(pts);
+const l=new THREE.PointLight(0xff2b2b,30,20);l.position.set(3,2,4);sc.add(l);
+function rs(){const w=cv.clientWidth,h=cv.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.position.z=w<800?19:12;cam.updateProjectionMatrix()}
+addEventListener("resize",rs);rs();
+let t=0,mx=0,my=0;addEventListener("mousemove",e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+(function loop(){t+=.01;const p=window.SCROLL.p;
+grp.rotation.y=t*.6+p*Math.PI*2+mx*.6;grp.rotation.x=Math.sin(t)*.15+my*.4;grp.scale.setScalar(.8+p*.9);grp.position.y=Math.sin(t*1.3)*.1;
+pts.rotation.y=-t*.15-p*2;pts.material.size=.03+p*.04;orbit.rotation.z=t*.4;orbit.scale.setScalar(1+p);
+r.render(sc,cam);requestAnimationFrame(loop)})();
+</script>
+</body></html>
